@@ -26,7 +26,7 @@ function formatTimestamp(createdAtSec: number): string {
 }
 ---
 
-<div class="flex flex-col gap-1 px-4 py-4">
-  <p class="text-sm font-medium leading-relaxed text-text-secondary">{activity.label}</p>
-  <p class="text-xs font-medium text-text-muted">{formatTimestamp(activity.createdAtSec)}</p>
+<div class="flex flex-col gap-0.5 px-4 py-3.5 sm:py-4">
+  <p class="text-[0.88rem] font-medium leading-snug text-text-secondary">{activity.label}</p>
+  <p class="text-[0.72rem] font-medium uppercase tracking-wider text-text-muted">{formatTimestamp(activity.createdAtSec)}</p>
 </div>

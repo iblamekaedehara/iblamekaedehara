@@ -41,8 +41,8 @@
   });
 </script>
 
-<div class="inner-card flex items-start gap-3 p-3 sm:p-4">
-  <div class="h-[70px] w-[70px] flex-shrink-0 overflow-hidden rounded-lg bg-card sm:h-20 sm:w-20">
+<div class="inner-card flex items-center gap-3 p-3 sm:gap-4 sm:p-3.5">
+  <div class="h-[72px] w-[72px] flex-shrink-0 overflow-hidden rounded-[10px] bg-card sm:h-[78px] sm:w-[78px]">
     <img
       src={imageUrl}
       alt={activity.name}
@@ -53,20 +53,20 @@
     />
   </div>
 
-  <div class="min-w-0 flex-1">
+  <div class="min-w-0 flex-1 py-0.5">
     <div class="flex items-center justify-between gap-2">
-      <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">{activityVerb}</p>
+      <p class="eyebrow">{activityVerb}</p>
       {#if displayTime}
-        <span class="shrink-0 font-mono text-xs font-semibold text-text-secondary">{displayTime}</span>
+        <span class="shrink-0 font-mono text-[0.7rem] font-semibold tabular-nums text-text-secondary">{displayTime}</span>
       {/if}
     </div>
-    <p class="mt-1 truncate text-base font-semibold leading-tight text-text-primary sm:text-lg">{activity.name}</p>
+    <p class="mt-1 truncate text-[0.97rem] font-semibold leading-tight text-text-primary sm:text-base">{activity.name}</p>
 
     {#if activity.details}
-      <p class="mt-0.5 truncate text-sm text-text-secondary">{activity.details}</p>
+      <p class="mt-0.5 truncate text-[0.85rem] leading-snug text-text-secondary">{activity.details}</p>
     {/if}
     {#if activity.state}
-      <p class="truncate text-sm text-text-muted">{activity.state}</p>
+      <p class="truncate text-[0.82rem] leading-snug text-text-muted">{activity.state}</p>
     {/if}
   </div>
 </div>

@@ -109,7 +109,7 @@
 
 <div class="flex w-full flex-col gap-3">
   <section aria-label="Profile" class="overflow-hidden">
-    <div class="relative h-[142px] overflow-visible rounded-t-lg bg-banner sm:h-[156px]">
+    <div class="relative h-[148px] overflow-visible rounded-t-[14px] bg-banner sm:h-[168px]">
       <img
         src="/assets/banner.jpg"
         alt=""
@@ -119,8 +119,8 @@
         onerror={handleBannerError}
       />
 
-      <div class="absolute -bottom-14 left-4 sm:left-5">
-        <div class="relative h-28 w-28 sm:h-32 sm:w-32">
+      <div class="absolute -bottom-12 left-4 sm:left-6">
+        <div class="relative h-[104px] w-[104px] sm:h-[120px] sm:w-[120px]">
           {#if connectionState === "connecting" || connectionState === "idle"}
             <div class="skeleton-pulse h-full w-full rounded-full border-[5px] border-surface"></div>
           {:else}
@@ -135,7 +135,7 @@
           {/if}
 
           <div
-            class="absolute bottom-1.5 right-1.5 flex h-7 w-7 items-center justify-center rounded-full border-4 border-surface"
+            class="absolute bottom-1 right-1 flex h-7 w-7 items-center justify-center rounded-full border-[4px] border-surface"
             style="background-color: {isLive ? statusDescriptor.color : 'var(--color-accent-gray)'}"
             aria-label={isLive ? statusDescriptor.text : "offline"}
           >
@@ -151,11 +151,11 @@
       </div>
     </div>
 
-    <div class="px-4 pb-1 pt-16 sm:px-5">
-      <h1 class="text-xl font-semibold leading-tight text-text-primary sm:text-2xl">
+    <div class="px-4 pb-1 pt-14 sm:px-6 sm:pt-16">
+      <h1 class="text-[1.35rem] font-semibold leading-tight text-text-primary sm:text-[1.65rem]">
         {PROFILE.displayName}
       </h1>
-      <p class="mt-0.5 text-base leading-snug text-text-secondary sm:text-lg">{PROFILE.bio}</p>
+      <p class="mt-1 text-[0.95rem] leading-snug text-text-secondary sm:text-base">{PROFILE.bio}</p>
     </div>
   </section>
 
@@ -164,13 +164,13 @@
   </span>
 
   <section class="card-shell p-4 sm:p-5" aria-label="Social links">
-    <div class="section-header mb-3">
-      <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">social links</p>
+    <div class="section-header mb-3.5">
+      <p class="eyebrow">social links</p>
     </div>
-    <div class="flex flex-wrap items-center gap-3">
+    <div class="flex flex-wrap items-center gap-2.5">
       {#each SOCIAL_LINKS as link (link.name)}
         <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name} class="social-icon">
-          <img src={link.icon} alt={link.name} width={30} height={30} class="h-7 w-7 rounded-[6px] object-cover" loading="lazy" />
+          <img src={link.icon} alt={link.name} width={30} height={30} class="h-[30px] w-[30px] rounded-[7px] object-cover" loading="lazy" />
         </a>
       {/each}
     </div>
@@ -180,10 +180,10 @@
 
   {#if hasVisibleActivity}
     <section aria-label="what am i doing?" class="card-shell p-4 sm:p-5">
-      <div class="section-header mb-3 flex items-center justify-between">
-        <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">what am i doing rn?</p>
+      <div class="section-header mb-3.5 flex items-center justify-between">
+        <p class="eyebrow">what am i doing rn?</p>
       </div>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2.5">
         {#each priorityActivities as activity (activity.id)}
           <PresenceCard {activity} imageUrl={activity.imageUrl} />
         {/each}
@@ -191,24 +191,24 @@
     </section>
   {:else if connectionState === "connecting" || connectionState === "idle"}
     <section class="card-shell p-4 sm:p-5" aria-label="Loading presence" aria-busy="true">
-      <div class="section-header mb-3">
-        <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">what am i doing rn?</p>
+      <div class="section-header mb-3.5">
+        <p class="eyebrow">what am i doing rn?</p>
       </div>
-      <div class="inner-card flex items-start gap-3 p-3 sm:p-4">
-        <div class="skeleton-pulse h-[70px] w-[70px] flex-shrink-0 rounded-lg sm:h-20 sm:w-20"></div>
-        <div class="flex flex-1 flex-col gap-2 pt-1">
-          <div class="skeleton-pulse h-2.5 w-14 rounded-full"></div>
-          <div class="skeleton-pulse h-4 w-36 rounded-full"></div>
-          <div class="skeleton-pulse h-3.5 w-28 rounded-full"></div>
+      <div class="inner-card flex items-center gap-3 p-3 sm:gap-4 sm:p-3.5">
+        <div class="skeleton-pulse h-[72px] w-[72px] flex-shrink-0 rounded-[10px] sm:h-[78px] sm:w-[78px]"></div>
+        <div class="flex flex-1 flex-col gap-2 py-0.5">
+          <div class="skeleton-pulse h-2 w-14 rounded-full"></div>
+          <div class="skeleton-pulse h-3.5 w-36 rounded-full"></div>
+          <div class="skeleton-pulse h-3 w-28 rounded-full"></div>
         </div>
       </div>
     </section>
   {:else if connectionState === "connected" && !spotifyCard}
     <section class="card-shell p-4 sm:p-5">
-      <div class="section-header mb-3">
-        <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">what am i doing rn?</p>
+      <div class="section-header mb-3.5">
+        <p class="eyebrow">what am i doing rn?</p>
       </div>
-      <div class="inner-card px-4 py-5 text-center text-sm text-text-secondary">
+      <div class="inner-card px-4 py-5 text-center text-[0.88rem] text-text-secondary">
         <p>prolly idling or offline</p>
       </div>
     </section>

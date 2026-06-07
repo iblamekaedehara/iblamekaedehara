@@ -2,19 +2,19 @@
 ---
 <div class="card-shell p-4 sm:p-5">
   <div class="mb-4 flex items-center justify-between gap-4 border-b border-border-soft pb-3">
-    <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">steam activity</p>
+    <p class="eyebrow">steam activity</p>
     <div class="skeleton-pulse h-4 w-24 rounded-full" />
   </div>
   <div class="flex flex-col gap-3">
     {[1, 2, 3].map(() => (
       <div class="inner-card block overflow-hidden">
-        <div class="relative w-full border-b border-border-soft" style="aspect-ratio: 3 / 1;">
+        <div class="relative w-full border-b border-border-soft" style="aspect-ratio: 460 / 144;">
           <div class="skeleton-pulse absolute inset-0 h-full w-full" />
         </div>
-        <div class="p-3">
-          <div class="skeleton-pulse h-6 w-3/4 rounded mb-2" />
-          <div class="skeleton-pulse h-4 w-1/2 rounded" />
-          <div class="skeleton-pulse h-4 w-1/3 rounded mt-1" />
+        <div class="px-3.5 py-3">
+          <div class="skeleton-pulse h-[1.05rem] w-3/4 rounded mb-2" />
+          <div class="skeleton-pulse h-[0.85rem] w-1/2 rounded" />
+          <div class="skeleton-pulse h-[0.8rem] w-1/3 rounded mt-1.5" />
         </div>
       </div>
     ))}

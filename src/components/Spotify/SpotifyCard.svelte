@@ -46,20 +46,20 @@
   });
 </script>
 
-<div class="fade-in inner-card p-3 sm:p-4">
+<div class="fade-in inner-card p-3 sm:p-3.5">
   <div class="flex items-center gap-3 sm:gap-4">
-    <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg sm:h-24 sm:w-24">
+    <div class="h-[72px] w-[72px] flex-shrink-0 overflow-hidden rounded-[10px] sm:h-[88px] sm:w-[88px]">
       <img src={spotify.album_art_url} alt={spotify.album} width={96} height={96} class="h-full w-full object-cover" loading="lazy" decoding="async" fetchpriority="low" onerror={handleCoverError} />
     </div>
-    <div class="min-w-0 flex-1">
-      <p class="truncate text-lg font-semibold leading-tight text-text-primary sm:text-xl">{spotify.song}</p>
-      <p class="mt-1 truncate text-base font-medium text-text-secondary">{spotify.artist}</p>
-      <div class="mt-4 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3">
-        <span class="font-mono text-sm font-semibold text-text-secondary">{currentTime}</span>
+    <div class="min-w-0 flex-1 py-0.5">
+      <p class="truncate text-[0.98rem] font-semibold leading-tight text-text-primary sm:text-[1.05rem]">{spotify.song}</p>
+      <p class="mt-1 truncate text-[0.85rem] font-medium leading-snug text-text-secondary">{spotify.artist}</p>
+      <div class="mt-3 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 sm:mt-3.5">
+        <span class="font-mono text-[0.72rem] font-semibold tabular-nums text-text-secondary">{currentTime}</span>
         <div class="h-1.5 w-full overflow-hidden rounded-full bg-border">
           <div class="h-full rounded-full bg-text-primary transition-none" style="width: {progressPercent}%" role="progressbar" aria-valuenow={Math.round(progressPercent)} aria-valuemin={0} aria-valuemax={100} aria-label="Spotify playback progress"></div>
         </div>
-        <span class="font-mono text-sm font-semibold text-text-secondary">{endTime}</span>
+        <span class="font-mono text-[0.72rem] font-semibold tabular-nums text-text-secondary">{endTime}</span>
       </div>
     </div>
   </div>

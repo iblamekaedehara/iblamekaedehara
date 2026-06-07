@@ -10,27 +10,27 @@ const hasCurrent = currentlyWatching.length > 0;
 
 <section aria-label="AniList activity" class="card-shell p-4 sm:p-5">
   <div class="section-header mb-4 flex items-center justify-between gap-4">
-    <p class="text-xs font-semibold uppercase tracking-wider text-text-muted">anilist activity</p>
+    <p class="eyebrow">anilist activity</p>
   </div>
 
   <div class="inner-card overflow-hidden">
-    <div class="px-4 py-4">
+    <div class="px-4 py-3.5 sm:py-4">
       {hasCurrent ? (
         <div class="flex items-start gap-2.5">
-          <div class="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full bg-accent-green" aria-hidden="true"></div>
+          <div class="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-accent-green" aria-hidden="true"></div>
           <div class="min-w-0">
-            <p class="text-sm font-medium text-text-secondary">currently watching:</p>
-            <div class="mt-1 flex flex-col gap-1">
+            <p class="text-[0.78rem] font-medium leading-snug text-text-muted">currently watching</p>
+            <div class="mt-1 flex flex-col gap-0.5">
               {currentlyWatching.map((title) => (
-                <p class="text-sm font-semibold leading-snug text-text-primary">{title}</p>
+                <p class="text-[0.92rem] font-semibold leading-snug text-text-primary">{title}</p>
               ))}
             </div>
           </div>
         </div>
       ) : (
         <div class="flex items-center gap-2.5">
-          <div class="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-accent-red" aria-hidden="true"></div>
-          <p class="text-sm font-medium text-text-muted">not watching anything</p>
+          <div class="h-2 w-2 flex-shrink-0 rounded-full bg-accent-red" aria-hidden="true"></div>
+          <p class="text-[0.85rem] font-medium text-text-muted">not watching anything</p>
         </div>
       )}
     </div>

@@ -8,11 +8,11 @@ import AniListSkeleton from "../components/AniList/AniListSkeleton.astro";
 ---
 
 <BaseLayout>
-  <main class="mx-auto flex min-h-screen w-full max-w-[1024px] flex-col px-4 py-5 sm:px-6 md:py-8">
+  <main class="mx-auto flex min-h-screen w-full max-w-[1080px] flex-col gap-5 px-4 py-6 sm:px-7 sm:py-8 md:gap-6 md:py-10">
     <!-- Hydrated presence section: avatar, status, Discord rich presence cards, social links -->
     <PresenceSection client:load />
 
-    <div class="mt-5 grid gap-5 md:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] md:items-start">
+    <div class="grid gap-5 md:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] md:items-start md:gap-6">
       <SteamSection server:defer>
         <SteamSkeleton slot="fallback" />
       </SteamSection>

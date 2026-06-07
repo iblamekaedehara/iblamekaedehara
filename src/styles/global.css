@@ -21,6 +21,11 @@
   --color-anilist: #3db4f2;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+
+  /* Harmonized type & spacing scale */
+  --radius-card: 14px;
+  --radius-inner: 10px;
+  --tracking-eyebrow: 0.085em;
 }
 
 @layer base {
@@ -34,6 +39,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Fluid base size: scales smoothly between small phones and large desktops */
+    font-size: clamp(15px, 0.45vw + 13.6px, 17px);
   }
 
   body {
@@ -42,8 +49,14 @@
       var(--color-surface);
     color: var(--color-text-primary);
     font-family: var(--font-sans);
+    line-height: 1.55;
+    letter-spacing: -0.005em;
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.018em;
   }
 
   a {
@@ -89,14 +102,16 @@
 
   .card-shell {
     border: 1px solid var(--color-border-soft);
-    border-radius: 10px;
+    border-radius: var(--radius-card);
     background: var(--color-card);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.02) inset,
+      0 14px 44px rgba(0, 0, 0, 0.22);
   }
 
   .inner-card {
     border: 1px solid var(--color-border-soft);
-    border-radius: 8px;
+    border-radius: var(--radius-inner);
     background: var(--color-panel);
   }
 
@@ -113,12 +128,20 @@
   }
 
   .section-header {
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.7rem;
   }
 
   .section-divider {
-    border-top: 1px solid var(--color-border-strong);
+    border-top: 1px solid var(--color-border-soft);
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-eyebrow);
+    color: var(--color-text-muted);
   }
 
   @keyframes fade-in {
