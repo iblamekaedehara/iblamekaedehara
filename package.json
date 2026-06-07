@@ -1,0 +1,28 @@
+{
+  "name": "kaedehara",
+  "version": "1.0.0",
+  "private": true,
+  "description": "personal hobby project to track my discord rich presence and steam games & anime list activity; acting as a link hub of my socials too- built with astro, svelte, and tailwindcss",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/svelte": "^7.0.0",
+    "@astrojs/vercel": "^8.1.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.7.0",
+    "svelte": "^5.25.0",
+    "tailwindcss": "^4.1.0",
+    "valibot": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.7.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

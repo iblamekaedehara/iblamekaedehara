@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PresenceSection from "../components/Presence/PresenceSection.svelte";
+import SteamSection from "../components/Steam/SteamSection.astro";
+import AniListSection from "../components/AniList/AniListSection.astro";
+import SteamSkeleton from "../components/Steam/SteamSkeleton.astro";
+import AniListSkeleton from "../components/AniList/AniListSkeleton.astro";
+---
+
+<BaseLayout>
+  <main class="mx-auto flex min-h-screen w-full max-w-[1024px] flex-col px-4 py-5 sm:px-6 md:py-8">
+    <!-- Hydrated presence section: avatar, status, Discord rich presence cards, social links -->
+    <PresenceSection client:load />
+
+    <div class="mt-5 grid gap-5 md:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] md:items-start">
+      <SteamSection server:defer>
+        <SteamSkeleton slot="fallback" />
+      </SteamSection>
+
+      <AniListSection server:defer>
+        <AniListSkeleton slot="fallback" />
+      </AniListSection>
+    </div>
+  </main>
+</BaseLayout>

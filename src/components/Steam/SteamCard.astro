@@ -1,0 +1,39 @@
+---
+export interface Props {
+  name: string;
+  playtimeHours: number;
+  playtimeTwoWeeks?: number;
+  lastPlayed: string;
+  imageUrl: string;
+  iconUrl?: string;
+  appid: number;
+}
+
+const { name, playtimeHours, playtimeTwoWeeks, lastPlayed, imageUrl, iconUrl, appid } = Astro.props;
+---
+<a
+  href={`https://store.steampowered.com/app/${appid}/`}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inner-card block overflow-hidden transition duration-200 hover:-translate-y-0.5 hover:bg-card-hover"
+>
+  <div class="relative w-full border-b border-border" style="aspect-ratio: 3 / 1;">
+    <img
+      src={imageUrl}
+      alt={name}
+      class="absolute inset-0 h-full w-full object-cover"
+      loading="lazy"
+      onerror="this.src='/assets/game-fallback.svg';this.onerror=null;"
+    />
+  </div>
+
+  <div class="p-3">
+    <p class="truncate text-lg text-text-primary" title={name}>{name}</p>
+    {playtimeTwoWeeks !== undefined && playtimeTwoWeeks > 0 ? (
+      <p class="text-sm text-text-secondary">{playtimeTwoWeeks} hrs past 2 weeks</p>
+    ) : (
+      <p class="text-sm text-text-secondary">{playtimeHours} hrs on record</p>
+    )}
+    <p class="text-sm text-text-muted">last played {lastPlayed}</p>
+  </div>
+</a>

@@ -1,0 +1,11 @@
+node_modules
+dist
+.astro
+.vercel
+.env
+*.log
+npm-debug.log*
+pnpm-debug.log*
+*.zip
+*.tar.gz
+*.rar
