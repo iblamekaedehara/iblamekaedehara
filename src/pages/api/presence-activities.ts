@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
 import { resolveActivityIcon } from "../../lib/media";
-import { FALLBACK_PLACEHOLDER } from "../../lib/media/contracts";
 import type { DiscordActivity } from "../../lib/types";
 import { ACTIVITY_TYPES } from "../../lib/constants";
 
@@ -17,16 +16,17 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Skip Spotify and Custom Status — they're rendered by their own cards.
+  // Every other activity (game, streaming, watching, listening, competing)
+  // goes through the icon resolver, which queries Lanyard first and then
+  // SteamGridDB by display name — SGDB indexes virtually every app/service
+  // (YouTube, Twitch, Spotify-as-app, Crunchyroll, etc.) as a "game".
   const relevant = activities.filter(
     (a) => a.type !== ACTIVITY_TYPES.SPOTIFY && a.type !== ACTIVITY_TYPES.CUSTOM
   );
 
   const resolved = await Promise.all(
     relevant.map(async (activity) => {
-      const isGame = activity.type === 0 || activity.type === 1;
-      const imageUrl = isGame
-        ? (await resolveActivityIcon(activity.name, activity)).url
-        : FALLBACK_PLACEHOLDER;
+      const imageUrl = (await resolveActivityIcon(activity.name, activity)).url;
 
       return {
         id: activity.id,
