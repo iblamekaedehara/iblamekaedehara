@@ -46,16 +46,9 @@
   });
 </script>
 
-<div class="fade-in inner-card relative overflow-hidden p-3 sm:p-3.5">
-  <div
-    class="pointer-events-none absolute inset-0 scale-110 bg-cover bg-center opacity-[0.13] blur-2xl"
-    style="background-image: url('{spotify.album_art_url}')"
-    aria-hidden="true"
-  ></div>
-  <div class="pointer-events-none absolute inset-0 bg-panel/80" aria-hidden="true"></div>
-
-  <div class="relative flex items-center gap-3 sm:gap-4">
-    <div class="h-[76px] w-[76px] flex-shrink-0 overflow-hidden rounded-[10px] shadow-[0_10px_28px_rgba(0,0,0,0.26)] sm:h-[92px] sm:w-[92px]">
+<div class="fade-in inner-card p-3 sm:p-3.5">
+  <div class="flex items-center gap-3 sm:gap-4">
+    <div class="h-[72px] w-[72px] flex-shrink-0 overflow-hidden rounded-[10px] sm:h-[88px] sm:w-[88px]">
       <img src={spotify.album_art_url} alt={spotify.album} width={96} height={96} class="h-full w-full object-cover" loading="lazy" decoding="async" fetchpriority="low" onerror={handleCoverError} />
     </div>
     <div class="min-w-0 flex-1 py-0.5">
@@ -64,7 +57,7 @@
       <div class="mt-3 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 sm:mt-3.5">
         <span class="font-mono text-[0.72rem] font-semibold tabular-nums text-text-secondary">{currentTime}</span>
         <div class="h-1.5 w-full overflow-hidden rounded-full bg-border">
-          <div class="h-full rounded-full bg-spotify transition-none" style="width: {progressPercent}%" role="progressbar" aria-valuenow={Math.round(progressPercent)} aria-valuemin={0} aria-valuemax={100} aria-label="Spotify playback progress"></div>
+          <div class="h-full rounded-full bg-text-primary transition-none" style="width: {progressPercent}%" role="progressbar" aria-valuenow={Math.round(progressPercent)} aria-valuemin={0} aria-valuemax={100} aria-label="Spotify playback progress"></div>
         </div>
         <span class="font-mono text-[0.72rem] font-semibold tabular-nums text-text-secondary">{endTime}</span>
       </div>

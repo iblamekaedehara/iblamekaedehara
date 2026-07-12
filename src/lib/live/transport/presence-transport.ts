@@ -6,9 +6,13 @@
  * - PRESENCE_UPDATE is a PARTIAL MERGE — Lanyard only sends changed fields.
  * - Subscribe (op:2) is sent AFTER Hello (op:1) — correct Lanyard protocol order.
  * - No dead-socket heuristic based on message recency — rely on WebSocket close event.
- * - Connection state transition is scheduled after socket close.
+ * - Connection state transition managed by scheduleReconnectLocal, not handleClose.
  * - Multi-stage stale degradation: soft (2 min) → hard (10 min).
  * - Lease-based leader election with immediate heartbeat on becomeLeader.
+ *
+ * Module-level helpers (cleanupTimersLocal, scheduleReconnectLocal):
+ *   These are module-level to avoid `this` binding issues inside WebSocket event
+ *   handler closures. The PresenceTransport class passes itself explicitly.
  */
 
 import { DISCORD_USER_ID, LANYARD_WS_URL } from "../../constants";
@@ -58,6 +62,21 @@ export interface IPresenceTransport {
 }
 
 // ── Transport internals (exposed for module-level helpers) ────────────────
+
+interface TransportInternals {
+  heartbeatTimer: ReturnType<typeof setInterval> | null;
+  reconnectTimer: ReturnType<typeof setTimeout> | null;
+  softStaleTimer: ReturnType<typeof setTimeout> | null;
+  hardStaleTimer: ReturnType<typeof setTimeout> | null;
+  reconnectAttempts: number;
+  connectionState: ConnectionState;
+  paused: boolean;
+  leaderTab: boolean;
+  ws: WebSocket | null;
+  setConnectionState(s: ConnectionState): void;
+  broadcastConnection(): void;
+  connect(): void;
+}
 
 // ── Singleton ─────────────────────────────────────────────────────────────
 
@@ -372,10 +391,10 @@ class PresenceTransport implements IPresenceTransport {
 
   private handleClose = (): void => {
     const wasConnected = this.connectionState === "connected" || this.connectionState === "connecting";
-    this.cleanupConnectionTimers();
+    cleanupTimersLocal(this as unknown as TransportInternals);
     if (wasConnected) {
       this.ws = null;
-      this.scheduleReconnect();
+      scheduleReconnectLocal(this as unknown as TransportInternals);
     } else {
       this.ws = null;
       this.setConnectionState("idle");
@@ -411,46 +430,45 @@ class PresenceTransport implements IPresenceTransport {
   }
 
   private cleanupTimers(): void {
-    this.cleanupConnectionTimers();
+    cleanupTimersLocal(this as unknown as TransportInternals);
     if (this.helloTimeoutTimer) { clearTimeout(this.helloTimeoutTimer); this.helloTimeoutTimer = null; }
-  }
-
-  private cleanupConnectionTimers(): void {
-    if (this.heartbeatTimer) { clearInterval(this.heartbeatTimer); this.heartbeatTimer = null; }
-    if (this.reconnectTimer) { clearTimeout(this.reconnectTimer); this.reconnectTimer = null; }
-  }
-
-  private cleanupFreshnessTimers(): void {
-    if (this.softStaleTimer) { clearTimeout(this.softStaleTimer); this.softStaleTimer = null; }
-    if (this.hardStaleTimer) { clearTimeout(this.hardStaleTimer); this.hardStaleTimer = null; }
-  }
-
-  private scheduleReconnect(): void {
-    if (this.connectionState === "reconnecting") return;
-    if (!navigator.onLine || this.paused) return;
-    this.setConnectionState("reconnecting");
-    this.broadcastConnection();
-    this.reconnectAttempts++;
-    const base = Math.min(1000 * Math.pow(2, this.reconnectAttempts - 1), 30000);
-    const delay = Math.floor(base + Math.random() * 1000);
-    this.reconnectTimer = setTimeout(() => {
-      this.reconnectTimer = null;
-      this.setConnectionState("idle");
-      this.broadcastConnection();
-      this.connect();
-    }, delay);
   }
 
   destroy(): void {
     this.detachNetworkListeners();
     this.disconnect();
-    this.cleanupFreshnessTimers();
     this.election?.destroy();
     if (this.stateChannel) { this.stateChannel.close(); this.stateChannel = null; }
   }
 }
 
 // ── Module-level helpers ──────────────────────────────────────────────────
+// These are module-level to avoid `this` binding issues inside WebSocket
+// event handler closures. The PresenceTransport class passes itself explicitly.
+
+function cleanupTimersLocal(t: TransportInternals): void {
+  if (t.heartbeatTimer) { clearInterval(t.heartbeatTimer); t.heartbeatTimer = null; }
+  if (t.reconnectTimer) { clearTimeout(t.reconnectTimer); t.reconnectTimer = null; }
+  if (t.softStaleTimer) { clearTimeout(t.softStaleTimer); t.softStaleTimer = null; }
+  if (t.hardStaleTimer) { clearTimeout(t.hardStaleTimer); t.hardStaleTimer = null; }
+}
+
+function scheduleReconnectLocal(t: TransportInternals): void {
+  if (t.connectionState === "reconnecting") return;
+  if (!navigator.onLine || t.paused) return;
+  t.setConnectionState("reconnecting");
+  t.broadcastConnection();
+  t.reconnectAttempts++;
+  const base = Math.min(1000 * Math.pow(2, t.reconnectAttempts - 1), 30000);
+  const delay = Math.floor(base + Math.random() * 1000);
+  t.reconnectTimer = setTimeout(() => {
+    t.reconnectTimer = null;
+    t.setConnectionState("idle");
+    t.broadcastConnection();
+    t.connect();
+  }, delay);
+}
+
 function createNoopTransport(): IPresenceTransport {
   return {
     connect: () => {},

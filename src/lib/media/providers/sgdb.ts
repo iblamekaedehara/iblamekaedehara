@@ -214,6 +214,13 @@ export async function fetchIcons(gameId: number): Promise<string | null> {
 
     const best = ranked[0];
 
+    console.log(
+      `[media] SGDB: selected icon for gameId=${gameId}`,
+      `rank=${best.rank.toFixed(2)}`,
+      `style=${best.asset.style ?? "unknown"}`,
+      `score=${best.asset.score ?? "?"}`,
+    );
+
     return best.asset.url;
   });
 

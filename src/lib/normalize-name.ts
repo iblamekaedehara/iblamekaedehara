@@ -39,3 +39,13 @@ export function normalizeGameName(raw: string): string {
   return s || raw.toLowerCase().replace(/\s+/g, "-");
 }
 
+/**
+ * Generate search variations for fuzzy matching across providers.
+ */
+export function getSearchVariants(raw: string): string[] {
+  const normalized = normalizeGameName(raw);
+  const base = raw.trim();
+  const lower = base.toLowerCase();
+
+  return [...new Set([lower, normalized, base])];
+}

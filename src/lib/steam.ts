@@ -9,6 +9,7 @@ export interface SteamGameData {
   lastPlayed: string;
   lastPlayedTimestamp: number;
   imageUrl: string;
+  iconUrl?: string;
 }
 
 export interface SteamResult {
@@ -163,6 +164,10 @@ export async function fetchSteamData(): Promise<SteamResult> {
           lastPlayed: formatLastPlayed(g.rtime_last_played ?? 0),
           lastPlayedTimestamp: g.rtime_last_played ?? 0,
           imageUrl,
+          iconUrl:
+            (effectiveAppId < NON_STEAM_THRESHOLD) && g.img_icon_url
+              ? `https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/${effectiveAppId}/${g.img_icon_url}.jpg`
+              : undefined,
         };
       }),
     );
@@ -175,6 +180,7 @@ export async function fetchSteamData(): Promise<SteamResult> {
       lastPlayed: g.lastPlayed,
       lastPlayedTimestamp: g.lastPlayedTimestamp,
       imageUrl: g.imageUrl,
+      iconUrl: g.iconUrl,
     }));
 
     const result = { games, totalPlaytime: totalPlaytimeHours };
