@@ -48,9 +48,8 @@
   );
 
   async function resolveActivities(activities: DiscordActivity[]): Promise<ResolvedActivity[]> {
-    if (!activities.length) return [];
-
     const myGeneration = ++resolveGeneration;
+    if (!activities.length) return [];
 
     try {
       const res = await fetch("/api/presence-activities", {
@@ -108,8 +107,8 @@
 </script>
 
 <div class="flex w-full flex-col gap-3">
-  <section aria-label="Profile" class="overflow-hidden">
-    <div class="relative h-[148px] overflow-visible rounded-t-[14px] bg-banner sm:h-[168px]">
+  <section aria-label="Profile" class="card-shell overflow-hidden">
+    <div class="relative h-[156px] overflow-visible bg-banner sm:h-[184px]">
       <img
         src="/assets/banner.jpg"
         alt=""
@@ -120,7 +119,7 @@
       />
 
       <div class="absolute -bottom-12 left-4 sm:left-6">
-        <div class="relative h-[104px] w-[104px] sm:h-[120px] sm:w-[120px]">
+        <div class="relative h-[104px] w-[104px] drop-shadow-[0_12px_34px_rgba(0,0,0,0.34)] sm:h-[120px] sm:w-[120px]">
           {#if connectionState === "connecting" || connectionState === "idle"}
             <div class="skeleton-pulse h-full w-full rounded-full border-[5px] border-surface"></div>
           {:else}
@@ -151,30 +150,29 @@
       </div>
     </div>
 
-    <div class="px-4 pb-1 pt-14 sm:px-6 sm:pt-16">
-      <h1 class="text-[1.35rem] font-semibold leading-tight text-text-primary sm:text-[1.65rem]">
-        {PROFILE.displayName}
-      </h1>
-      <p class="mt-1 text-[0.95rem] leading-snug text-text-secondary sm:text-base">{PROFILE.bio}</p>
+    <div class="px-4 pb-4 pt-14 sm:px-6 sm:pb-5 sm:pt-16">
+      <div class="flex flex-col gap-3">
+        <div class="min-w-0">
+          <h1 class="text-[1.35rem] font-semibold leading-tight text-text-primary sm:text-[1.65rem]">
+            {PROFILE.displayName}
+          </h1>
+          <p class="mt-1 text-[0.95rem] leading-snug text-text-secondary sm:text-base">{PROFILE.bio}</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          {#each SOCIAL_LINKS as link (link.name)}
+            <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name} class="social-icon">
+              <img src={link.icon} alt={link.name} width={28} height={28} class="h-[28px] w-[28px] rounded-[7px] object-cover" loading="lazy" />
+            </a>
+          {/each}
+        </div>
+      </div>
     </div>
   </section>
 
   <span role="status" aria-live="polite" aria-atomic="true" class="sr-only">
     {isLive ? `Discord status: ${statusDescriptor.text}` : "Discord status: offline"}
   </span>
-
-  <section class="card-shell p-4 sm:p-5" aria-label="Social links">
-    <div class="section-header mb-3.5">
-      <p class="eyebrow">social links</p>
-    </div>
-    <div class="flex flex-wrap items-center gap-2.5">
-      {#each SOCIAL_LINKS as link (link.name)}
-        <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name} class="social-icon">
-          <img src={link.icon} alt={link.name} width={30} height={30} class="h-[30px] w-[30px] rounded-[7px] object-cover" loading="lazy" />
-        </a>
-      {/each}
-    </div>
-  </section>
 
   <SpotifySection spotify={spotifyCard} />
 

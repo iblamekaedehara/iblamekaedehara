@@ -10,11 +10,22 @@ import { resolveLanyardAssetUrl } from "../providers/lanyard";
 import type { ActivityIconMedia } from "../contracts";
 import { FALLBACK_PLACEHOLDER } from "../contracts";
 import type { DiscordActivity } from "../../types";
+import { getMediaOverride } from "../overrides";
 
 export async function resolveActivityIcon(
   gameName: string,
   activity?: DiscordActivity
 ): Promise<ActivityIconMedia> {
+  const override = getMediaOverride(gameName);
+  if (override?.iconUrl) {
+    return {
+      role: "activity-icon",
+      provider: "fallback",
+      url: override.iconUrl,
+      aspectRatio: "square",
+    };
+  }
+
   if (activity) {
     const lanyardUrl = resolveLanyardAssetUrl(activity);
     if (lanyardUrl) {
