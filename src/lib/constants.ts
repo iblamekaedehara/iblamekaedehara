@@ -40,7 +40,6 @@ export const SOCIAL_LINKS = [
 export const PROFILE = {
   displayName: "!! kaedehara",
   bio: "~ there's no limit to the larp.",
-  avatarFallback: "/assets/avatar-fallback.svg",
 } as const;
 
 export const LANYARD_WS_URL = "wss://api.lanyard.rest/socket";

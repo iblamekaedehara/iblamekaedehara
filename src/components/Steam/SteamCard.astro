@@ -5,17 +5,16 @@ export interface Props {
   playtimeTwoWeeks?: number;
   lastPlayed: string;
   imageUrl: string;
-  iconUrl?: string;
   appid: number;
 }
 
-const { name, playtimeHours, playtimeTwoWeeks, lastPlayed, imageUrl, iconUrl, appid } = Astro.props;
+const { name, playtimeHours, playtimeTwoWeeks, lastPlayed, imageUrl, appid } = Astro.props;
 ---
 <a
   href={`https://store.steampowered.com/app/${appid}/`}
   target="_blank"
   rel="noopener noreferrer"
-  class="inner-card block overflow-hidden transition duration-200 hover:-translate-y-0.5 hover:bg-card-hover"
+  class="inner-card group block overflow-hidden transition duration-200 hover:-translate-y-0.5 hover:bg-card-hover"
 >
   <div class="relative w-full border-b border-border" style="aspect-ratio: 460 / 144;">
     <img
@@ -23,12 +22,13 @@ const { name, playtimeHours, playtimeTwoWeeks, lastPlayed, imageUrl, iconUrl, ap
       alt={name}
       class="absolute inset-0 h-full w-full object-cover"
       loading="lazy"
-      onerror="this.src='/assets/game-fallback.svg';this.onerror=null;"
+      onerror="this.setAttribute('src','/assets/game-fallback.svg');this.removeAttribute('onerror');"
     />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-90"></div>
+    <p class="absolute bottom-3 left-3 right-3 truncate text-[1rem] font-semibold leading-tight text-white drop-shadow" title={name}>{name}</p>
   </div>
 
   <div class="px-3.5 py-3">
-    <p class="truncate text-[0.98rem] font-semibold leading-tight text-text-primary" title={name}>{name}</p>
     {playtimeTwoWeeks !== undefined && playtimeTwoWeeks > 0 ? (
       <p class="mt-1 truncate text-[0.83rem] leading-snug text-text-secondary">{playtimeTwoWeeks} hrs past 2 weeks</p>
     ) : (
